@@ -97,6 +97,7 @@
       <button onclick="switchView('shop', this)">🛍️ Katalog Toko (Shop)</button>
       <button onclick="switchView('single', this)">🔍 Detail Produk (Single)</button>
       <button onclick="switchView('account', this)">👤 Akun Pembeli (My Account)</button>
+      <button onclick="switchView('updates', this)">🔄 Info Auto-Update WP</button>
     </div>
   </div>
 
@@ -105,7 +106,7 @@
     <nav class="nav-inner">
       <a href="#" class="site-brand" onclick="switchView('home')">
         <div class="site-brand__logo">H</div>
-        <span class="site-brand__name">Haka<span>Times</span></span>
+        <span class="site-brand__name">Haka<span>Store</span></span>
       </a>
 
       <div class="nav-search">
@@ -759,6 +760,94 @@
     </div>
   </div>
 
+
+  <!-- ==========================================
+       VIEW 5: AUTO-UPDATE DASHBOARD SIMULATION
+       ========================================== -->
+  <div id="view-updates" class="view-section">
+    <div style="padding: 4rem 0 6rem">
+      <div class="container" style="max-width: 960px">
+        <div style="text-align: center; margin-bottom: 3rem">
+          <span class="hero__eyebrow">Pembaruan Otomatis WordPress</span>
+          <h1 class="section-title">Fitur <em>Auto-Update GitHub</em></h1>
+          <p class="section-subtitle">
+            HakaStore terhubung langsung ke GitHub Releases. Pembaruan tema dapat dilakukan dengan 1-klik dari dashboard admin WordPress.
+          </p>
+        </div>
+
+        <div style="background: var(--color-surface-card); border: 1px solid var(--color-border-gold); border-radius: var(--radius-2xl); padding: 3rem; box-shadow: var(--shadow-lg), var(--shadow-glow); margin-bottom: 2.5rem">
+          <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--color-border); padding-bottom: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem">
+            <div>
+              <div style="font-size: 1.25rem; font-weight: 700; color: #FFF">Status Koneksi GitHub Theme Updater</div>
+              <div style="font-size: var(--text-xs); color: var(--color-text-muted)">Repositori: <a href="https://github.com/hakastudio/hakastore" target="_blank" style="color: var(--color-gold); text-decoration: underline">github.com/hakastudio/hakastore</a></div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; background: var(--color-surface); padding: 0.4rem 1rem; border-radius: var(--radius-full); border: 1px solid var(--color-border)">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: var(--color-success)"></span>
+              <span style="font-size: var(--text-xs); font-weight: 700; color: var(--color-success)">Terhubung (Aktif)</span>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem">
+            <div style="background: var(--color-surface); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--color-border)">
+              <div style="font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem">Versi Tema Terpasang</div>
+              <div style="font-size: 1.85rem; font-weight: 800; color: var(--color-gold)">v1.0.1</div>
+              <div style="font-size: var(--text-xs); color: var(--color-text-secondary); margin-top: 0.35rem">Single Seller & Auto-Updater Edition</div>
+            </div>
+
+            <div style="background: var(--color-surface); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--color-border)">
+              <div style="font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem">Rilis Terkini di GitHub</div>
+              <div style="font-size: 1.85rem; font-weight: 800; color: #FFF" id="sim-remote-version">v1.0.1</div>
+              <div style="font-size: var(--text-xs); color: var(--color-success); margin-top: 0.35rem" id="sim-status-text">✓ Tema Anda sudah menggunakan versi paling mutakhir</div>
+            </div>
+          </div>
+
+          <!-- Simulation Interactive Buttons -->
+          <div style="background: var(--color-bg-alt); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--color-border)">
+            <div style="font-weight: 700; margin-bottom: 0.5rem; color: #FFF">Simulasi Pengecekan Update WordPress:</div>
+            <p style="font-size: var(--text-xs); color: var(--color-text-muted); margin-bottom: 1.25rem">
+              Uji bagaimana dashboard WordPress Anda menampilkan notifikasi pembaruan saat Anda merilis versi baru (misal v1.0.2) di GitHub.
+            </p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap">
+              <button class="btn btn--outline btn--sm" onclick="simulateCheckUpdate()">
+                🔍 Periksa Pembaruan GitHub Sekarang
+              </button>
+              <button class="btn btn--primary btn--sm" id="btn-simulate-update" style="display: none" onclick="simulatePerformUpdate()">
+                ⚡ Perbarui Sekarang (Simulasi 1-Klik)
+              </button>
+            </div>
+            <div id="sim-log-box" style="margin-top: 1rem; font-size: var(--text-xs); color: var(--color-gold); display: none"></div>
+          </div>
+        </div>
+
+        <!-- 4 Step Tutorial Cards -->
+        <h3 style="font-size: 1.35rem; margin-bottom: 1.25rem; color: #FFF">Cara Merilis Update Nanti:</h3>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem">
+          <div style="background: var(--color-surface-card); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--color-border)">
+            <div style="font-size: 1.25rem; font-weight: 800; color: var(--color-gold); margin-bottom: 0.5rem">01</div>
+            <div style="font-weight: 700; font-size: var(--text-sm); margin-bottom: 0.35rem">Ubah Versi</div>
+            <div style="font-size: var(--text-xs); color: var(--color-text-muted)">Naikkan versi di style.css dan functions.php (misal: 1.0.2).</div>
+          </div>
+          <div style="background: var(--color-surface-card); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--color-border)">
+            <div style="font-size: 1.25rem; font-weight: 800; color: var(--color-gold); margin-bottom: 0.5rem">02</div>
+            <div style="font-weight: 700; font-size: var(--text-sm); margin-bottom: 0.35rem">Push Tag</div>
+            <div style="font-size: var(--text-xs); color: var(--color-text-muted)">Jalankan git tag -a v1.0.2 dan git push origin main --tags.</div>
+          </div>
+          <div style="background: var(--color-surface-card); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--color-border)">
+            <div style="font-size: 1.25rem; font-weight: 800; color: var(--color-gold); margin-bottom: 0.5rem">03</div>
+            <div style="font-weight: 700; font-size: var(--text-sm); margin-bottom: 0.35rem">GitHub Build</div>
+            <div style="font-size: var(--text-xs); color: var(--color-text-muted)">GitHub Actions otomatis membuat hakastore.zip rilis terbaru.</div>
+          </div>
+          <div style="background: var(--color-surface-card); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--color-border)">
+            <div style="font-size: 1.25rem; font-weight: 800; color: var(--color-gold); margin-bottom: 0.5rem">04</div>
+            <div style="font-weight: 700; font-size: var(--text-sm); margin-bottom: 0.35rem">1-Klik WP</div>
+            <div style="font-size: var(--text-xs); color: var(--color-text-muted)">Klik "Perbarui Sekarang" di menu Dasbor > Pembaruan WordPress.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
@@ -766,7 +855,7 @@
         <div class="footer-brand">
           <a href="#" class="footer-brand__logo" onclick="switchView('home')">
             <div class="site-brand__logo">H</div>
-            <span class="footer-brand__name">Haka<span>Times</span></span>
+            <span class="footer-brand__name">Haka<span>Store</span></span>
           </a>
           <p class="footer-brand__desc">
             Toko resmi terpercaya untuk produk digital dan fisik. Dilayani langsung oleh HakaStore dengan jaminan kepuasan pelanggan.
@@ -866,6 +955,36 @@
         btn.textContent = origText;
         btn.style.background = '';
         btn.style.color = '';
+      }, 1500);
+    }
+
+    function simulateCheckUpdate() {
+      const log = document.getElementById('sim-log-box');
+      log.style.display = 'block';
+      log.textContent = '🔄 Menghubungi GitHub API: https://api.github.com/repos/hakastudio/hakastore/releases/latest ...';
+      setTimeout(() => {
+        document.getElementById('sim-remote-version').textContent = 'v1.0.2 (Rilis Baru Ditemukan!)';
+        document.getElementById('sim-remote-version').style.color = 'var(--color-warning)';
+        document.getElementById('sim-status-text').textContent = '⚡ Versi baru 1.0.2 tersedia di GitHub!';
+        document.getElementById('sim-status-text').style.color = 'var(--color-warning)';
+        document.getElementById('btn-simulate-update').style.display = 'inline-flex';
+        log.innerHTML = '✅ <strong>Notifikasi WordPress:</strong> Ada versi baru 1.0.2 tersedia! Klik tombol <em>"Perbarui Sekarang"</em> untuk menguji proses pembaruan otomatis.';
+      }, 800);
+    }
+
+    function simulatePerformUpdate() {
+      const log = document.getElementById('sim-log-box');
+      log.innerHTML = '⏳ <strong>Mengunduh hakastore.zip dari GitHub Releases...</strong> Mengekstrak berkas tema... Menimpa berkas lama...';
+      const btn = document.getElementById('btn-simulate-update');
+      btn.disabled = true;
+      btn.textContent = 'Memperbarui...';
+      setTimeout(() => {
+        btn.style.display = 'none';
+        document.getElementById('sim-remote-version').textContent = 'v1.0.2';
+        document.getElementById('sim-remote-version').style.color = 'var(--color-gold)';
+        document.getElementById('sim-status-text').textContent = '✓ Tema HakaStore berhasil diperbarui ke versi 1.0.2!';
+        document.getElementById('sim-status-text').style.color = 'var(--color-success)';
+        log.innerHTML = '🎉 <strong>Sukses!</strong> Tema HakaStore berhasil diperbarui ke v1.0.2 secara otomatis tanpa menghapus produk maupun data pengaturan toko.';
       }, 1500);
     }
   </script>

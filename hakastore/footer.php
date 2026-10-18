@@ -18,7 +18,7 @@ $wa_num      = get_theme_mod('hakastore_whatsapp', '6281234567890');
       <div class="footer-brand">
         <a href="<?php echo esc_url(home_url('/')); ?>" class="footer-brand__logo" aria-label="HakaStore Beranda">
           <div class="site-brand__logo" aria-hidden="true">H</div>
-          <span class="footer-brand__name">Haka<span>Times</span></span>
+          <span class="footer-brand__name">Haka<span>Store</span></span>
         </a>
         <p class="footer-brand__desc">
           <?php echo esc_html($footer_desc); ?>

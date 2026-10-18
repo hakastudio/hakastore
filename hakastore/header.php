@@ -22,7 +22,7 @@ defined('ABSPATH') || exit;
     <!-- Brand -->
     <a href="<?php echo esc_url(home_url('/')); ?>" class="site-brand" aria-label="<?php bloginfo('name'); ?> - Beranda">
       <div class="site-brand__logo" aria-hidden="true">H</div>
-      <span class="site-brand__name">Haka<span>Times</span></span>
+      <span class="site-brand__name">Haka<span>Store</span></span>
     </a>
 
     <!-- Search -->
