@@ -246,5 +246,17 @@ if ( file_exists( HAKASTORE_DIR . '/inc/demo-data.php' ) ) {
     require_once HAKASTORE_DIR . '/inc/demo-data.php';
 }
 
+// ── GitHub Auto-Update Feature ─────────────────────────────
+if ( file_exists( HAKASTORE_DIR . '/inc/class-theme-updater.php' ) ) {
+    require_once HAKASTORE_DIR . '/inc/class-theme-updater.php';
+    new HakaStore_Theme_Updater(
+        'hakastore',
+        HAKASTORE_VERSION,
+        'hakastudio',
+        'hakastore'
+    );
+}
+
+
 
 

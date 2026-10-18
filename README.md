@@ -32,6 +32,7 @@ Tema WordPress e-commerce modern dengan estetika **Dark Luxury & Gold Accent** y
   - Kategori produk dapat digeser ke samping (*horizontal touch swipe with snap*).
   - Menu navigasi mobile drawer yang mulus.
   - Ukuran target sentuh nyaman (minimal 44px).
+- **🔄 Pembaruan Otomatis 1-Klik (Auto-Update via GitHub)**: Dilengkapi updater bawaan. Begitu Anda rilis versi baru di GitHub, dashboard WordPress akan memunculkan tombol *'Perbarui Sekarang'* seperti tema resmi.
 - **⚙️ Pengaturan Penuh via WordPress Customizer**: Ubah warna aksen emas, teks hero banner, 4 poin keunggulan toko, banner pelanggan, serta kontak WhatsApp/Instagram langsung dari dashboard admin tanpa sentuh kode.
 
 ---
@@ -171,6 +172,34 @@ File Otomatis Diterima Pembeli Lewat 3 Jalur Sekaligus:
               ↓
 [Pembeli Melacak Status Resi di Akun Saya > Riwayat Pesanan]
 ```
+
+---
+
+## 🔄 Fitur Pembaruan Otomatis (Auto-Update via GitHub)
+
+Tema HakaStore dilengkapi dengan **mesin pembaruan otomatis bawaan** (`inc/class-theme-updater.php`) yang terhubung langsung ke repositori GitHub: [**https://github.com/hakastudio/hakastore**](https://github.com/hakastudio/hakastore).
+
+### Bagaimana Cara Kerjanya?
+1. Saat Anda merilis versi baru di GitHub (misal: `v1.0.1`), WordPress akan otomatis mendeteksinya melalui API GitHub Releases.
+2. Di dashboard WordPress (**Tampilan > Tema** atau **Dasbor > Pembaruan**), akan muncul notifikasi kuning:
+   > *"Ada versi baru dari HakaStore tersedia. Periksa rincian versi 1.0.1 atau perbarui sekarang."*
+3. Anda (atau admin web) cukup mengeklik **"Perbarui Sekarang"** (*Update Now*).
+4. WordPress akan otomatis mengunduh file `hakastore.zip` terbaru dari GitHub Releases, mengekstraknya, dan memperbarui file tema tanpa menghilangkan data produk, pengaturan kustomisasi, maupun database yang sudah ada!
+
+### Cara Merilis Versi Baru Nanti:
+Setiap kali Anda selesai mengedit atau menambah fitur:
+1. Naikkan nomor versi di 2 file:
+   - `hakastore/style.css` -> ubah `Version: 1.0.1`
+   - `hakastore/functions.php` -> ubah `define( 'HAKASTORE_VERSION', '1.0.1' );`
+2. Commit dan buat Git Tag:
+   ```bash
+   git add .
+   git commit -m "feat: rilis pembaruan v1.0.1"
+   git tag -a v1.0.1 -m "Rilis HakaStore v1.0.1"
+   git push origin main --tags
+   ```
+3. GitHub Actions akan otomatis mengompilasi dan mengunggah `hakastore.zip` ke GitHub Releases.
+4. WordPress Anda langsung mendeteksi update tersebut!
 
 ---
 
