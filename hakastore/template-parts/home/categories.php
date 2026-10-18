@@ -17,7 +17,7 @@
       foreach ( $categories as $cat ) :
         $term = get_term_by( 'slug', $cat['slug'], 'product_cat' );
         $url  = $term ? get_term_link( $term ) : get_term_link( $cat['slug'], 'product_cat' );
-        $url  = is_wp_error( $url ) ? add_query_arg( 'product_cat', $cat['slug'], wc_get_page_permalink('shop') ) : $url;
+        $url  = is_wp_error( $url ) ? add_query_arg( 'product_cat', $cat['slug'], hakastore_get_shop_url() ) : $url;
       ?>
       <a href="<?php echo esc_url($url); ?>" class="category-chip reveal" role="listitem"
          aria-label="<?php echo esc_attr( sprintf(__('Kategori %s','hakastore'), $cat['name']) ); ?>">

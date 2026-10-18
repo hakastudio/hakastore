@@ -1,5 +1,9 @@
 <?php
 defined('ABSPATH') || exit;
+
+// Guard: only render if WooCommerce is active
+if ( ! class_exists('WP_Query') || ! function_exists('wc_get_product') ) return;
+
 $featured_args = [
   'post_type'      => 'product',
   'posts_per_page' => 4,

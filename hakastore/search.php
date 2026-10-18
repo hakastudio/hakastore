@@ -23,7 +23,7 @@ get_header();
       <div class="products-grid" style="grid-template-columns: repeat(4, 1fr)">
         <?php while ( have_posts() ) : the_post();
           $pid = get_the_ID();
-          $product = wc_get_product( $pid );
+          $product = function_exists('wc_get_product') ? wc_get_product( $pid ) : null;
         ?>
           <article class="product-card">
             <div class="product-card__thumb">
@@ -61,7 +61,7 @@ get_header();
         <div style="font-size:3.5rem; margin-bottom:1rem">🔍</div>
         <h3 style="font-size:1.5rem; margin-bottom:0.75rem"><?php esc_html_e('Tidak ditemukan hasil', 'hakastore'); ?></h3>
         <p style="color:var(--color-text-secondary); margin-bottom:2rem"><?php esc_html_e('Coba cari dengan kata kunci lain atau telusuri kategori produk.', 'hakastore'); ?></p>
-        <a href="<?php echo esc_url( wc_get_page_permalink('shop') ); ?>" class="btn btn--primary"><?php esc_html_e('Lihat Semua Produk', 'hakastore'); ?></a>
+        <a href="<?php echo esc_url( hakastore_get_shop_url() ); ?>" class="btn btn--primary"><?php esc_html_e('Lihat Semua Produk', 'hakastore'); ?></a>
       </div>
     <?php endif; ?>
   </div>

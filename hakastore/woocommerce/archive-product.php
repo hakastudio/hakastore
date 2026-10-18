@@ -35,12 +35,12 @@ get_header();
              style="border-radius:var(--radius-full); border:none">
             <?php esc_html_e('Semua Produk', 'hakastore'); ?>
           </a>
-          <a href="<?php echo esc_url( add_query_arg('filter_type', 'digital', wc_get_page_permalink('shop')) ); ?>" 
+          <a href="<?php echo esc_url( add_query_arg('filter_type', 'digital', hakastore_get_shop_url()) ); ?>" 
              class="btn btn--sm <?php echo (isset($_GET['filter_type']) && $_GET['filter_type'] === 'digital') ? 'btn--primary' : 'btn--ghost'; ?>" 
              style="border-radius:var(--radius-full); border:none">
             ⚡ <?php esc_html_e('Produk Digital', 'hakastore'); ?>
           </a>
-          <a href="<?php echo esc_url( add_query_arg('filter_type', 'physical', wc_get_page_permalink('shop')) ); ?>" 
+          <a href="<?php echo esc_url( add_query_arg('filter_type', 'physical', hakastore_get_shop_url()) ); ?>" 
              class="btn btn--sm <?php echo (isset($_GET['filter_type']) && $_GET['filter_type'] === 'physical') ? 'btn--primary' : 'btn--ghost'; ?>" 
              style="border-radius:var(--radius-full); border:none">
             📦 <?php esc_html_e('Produk Fisik', 'hakastore'); ?>
@@ -180,7 +180,7 @@ get_header();
           <div style="background:var(--color-surface-card); border:1px solid var(--color-border); border-radius:var(--radius-xl); padding:4rem 2rem; text-align:center">
             <div style="font-size:3.5rem; margin-bottom:1rem">🔍</div>
             <h3 style="font-size:1.5rem; margin-bottom:0.75rem"><?php esc_html_e('Tidak ada produk yang cocok', 'hakastore'); ?></h3>
-            <a href="<?php echo esc_url( wc_get_page_permalink('shop') ); ?>" class="btn btn--primary">
+            <a href="<?php echo esc_url( hakastore_get_shop_url() ); ?>" class="btn btn--primary">
               <?php esc_html_e('Reset Filter', 'hakastore'); ?>
             </a>
           </div>

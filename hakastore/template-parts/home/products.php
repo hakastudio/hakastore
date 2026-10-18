@@ -1,5 +1,18 @@
 <?php
 defined('ABSPATH') || exit;
+
+// Guard: only render if WooCommerce is active
+if ( ! function_exists('wc_get_products') ) {
+    ?>
+    <section class="products-section" id="produk-terbaru" aria-labelledby="products-heading">
+      <div class="container" style="text-align:center; padding:3rem 0;">
+        <p style="color:var(--color-text-muted)">🛒 <?php esc_html_e('Aktifkan WooCommerce untuk menampilkan produk.','hakastore'); ?></p>
+      </div>
+    </section>
+    <?php
+    return;
+}
+
 $products = wc_get_products(['status'=>'publish','limit'=>8,'orderby'=>'date','order'=>'DESC']);
 if (empty($products)) return;
 ?>
@@ -12,7 +25,7 @@ if (empty($products)) return;
           <?php esc_html_e('Produk','hakastore'); ?> <em><?php esc_html_e('Terbaru','hakastore'); ?></em>
         </h2>
       </div>
-      <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="btn btn--ghost" style="flex-shrink:0">
+      <a href="<?php echo esc_url(hakastore_get_shop_url()); ?>" class="btn btn--ghost" style="flex-shrink:0">
         <?php esc_html_e('Lihat Semua Produk','hakastore'); ?>
       </a>
     </div>
@@ -20,16 +33,16 @@ if (empty($products)) return;
     <!-- Filter tabs -->
     <div class="products-filter-bar reveal">
       <div class="products-filter-tabs" role="tablist" aria-label="<?php esc_attr_e('Filter produk','hakastore'); ?>">
-        <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="filter-tab active" role="tab">
+        <a href="<?php echo esc_url(hakastore_get_shop_url()); ?>" class="filter-tab active" role="tab">
           <?php esc_html_e('Semua Produk','hakastore'); ?>
         </a>
-        <a href="<?php echo esc_url(add_query_arg('filter_type','digital',wc_get_page_permalink('shop'))); ?>" class="filter-tab" role="tab">
+        <a href="<?php echo esc_url(add_query_arg('filter_type','digital',hakastore_get_shop_url())); ?>" class="filter-tab" role="tab">
           ⚡ <?php esc_html_e('Produk Digital','hakastore'); ?>
         </a>
-        <a href="<?php echo esc_url(add_query_arg('filter_type','physical',wc_get_page_permalink('shop'))); ?>" class="filter-tab" role="tab">
+        <a href="<?php echo esc_url(add_query_arg('filter_type','physical',hakastore_get_shop_url())); ?>" class="filter-tab" role="tab">
           📦 <?php esc_html_e('Produk Fisik','hakastore'); ?>
         </a>
-        <a href="<?php echo esc_url(add_query_arg('orderby','popularity',wc_get_page_permalink('shop'))); ?>" class="filter-tab" role="tab">
+        <a href="<?php echo esc_url(add_query_arg('orderby','popularity',hakastore_get_shop_url())); ?>" class="filter-tab" role="tab">
           🔥 <?php esc_html_e('Paling Populer','hakastore'); ?>
         </a>
       </div>

@@ -41,10 +41,10 @@ $wa_num      = get_theme_mod('hakastore_whatsapp', '6281234567890');
       <div class="footer-col">
         <h3 class="footer-col__title"><?php esc_html_e('Kategori Produk','hakastore'); ?></h3>
         <ul class="footer-col__links">
-          <li><a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="footer-col__link"><?php esc_html_e('Semua Produk','hakastore'); ?></a></li>
-          <li><a href="<?php echo esc_url(add_query_arg('filter_type', 'digital', wc_get_page_permalink('shop'))); ?>" class="footer-col__link"><?php esc_html_e('⚡ Produk Digital','hakastore'); ?></a></li>
-          <li><a href="<?php echo esc_url(add_query_arg('filter_type', 'physical', wc_get_page_permalink('shop'))); ?>" class="footer-col__link"><?php esc_html_e('📦 Produk Fisik','hakastore'); ?></a></li>
-          <li><a href="<?php echo esc_url(add_query_arg('orderby', 'popularity', wc_get_page_permalink('shop'))); ?>" class="footer-col__link"><?php esc_html_e('Produk Terpopuler','hakastore'); ?></a></li>
+          <li><a href="<?php echo esc_url(hakastore_get_shop_url()); ?>" class="footer-col__link"><?php esc_html_e('Semua Produk','hakastore'); ?></a></li>
+          <li><a href="<?php echo esc_url(add_query_arg('filter_type', 'digital', hakastore_get_shop_url())); ?>" class="footer-col__link"><?php esc_html_e('⚡ Produk Digital','hakastore'); ?></a></li>
+          <li><a href="<?php echo esc_url(add_query_arg('filter_type', 'physical', hakastore_get_shop_url())); ?>" class="footer-col__link"><?php esc_html_e('📦 Produk Fisik','hakastore'); ?></a></li>
+          <li><a href="<?php echo esc_url(add_query_arg('orderby', 'popularity', hakastore_get_shop_url())); ?>" class="footer-col__link"><?php esc_html_e('Produk Terpopuler','hakastore'); ?></a></li>
         </ul>
       </div>
 
@@ -52,10 +52,10 @@ $wa_num      = get_theme_mod('hakastore_whatsapp', '6281234567890');
       <div class="footer-col">
         <h3 class="footer-col__title"><?php esc_html_e('Akun Pembeli','hakastore'); ?></h3>
         <ul class="footer-col__links">
-          <li><a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>" class="footer-col__link"><?php esc_html_e('Masuk / Daftar Akun','hakastore'); ?></a></li>
-          <li><a href="<?php echo esc_url(wc_get_account_endpoint_url('orders')); ?>" class="footer-col__link"><?php esc_html_e('Riwayat Pesanan','hakastore'); ?></a></li>
-          <li><a href="<?php echo esc_url(wc_get_account_endpoint_url('downloads')); ?>" class="footer-col__link"><?php esc_html_e('Unduhan Digital Saya','hakastore'); ?></a></li>
-          <li><a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="footer-col__link"><?php esc_html_e('Keranjang Belanja','hakastore'); ?></a></li>
+          <li><a href="<?php echo esc_url(hakastore_get_account_url()); ?>" class="footer-col__link"><?php esc_html_e('Masuk / Daftar Akun','hakastore'); ?></a></li>
+          <li><a href="<?php echo esc_url(hakastore_get_account_url('orders')); ?>" class="footer-col__link"><?php esc_html_e('Riwayat Pesanan','hakastore'); ?></a></li>
+          <li><a href="<?php echo esc_url(hakastore_get_account_url('downloads')); ?>" class="footer-col__link"><?php esc_html_e('Unduhan Digital Saya','hakastore'); ?></a></li>
+          <li><a href="<?php echo esc_url(hakastore_get_cart_url()); ?>" class="footer-col__link"><?php esc_html_e('Keranjang Belanja','hakastore'); ?></a></li>
         </ul>
       </div>
 

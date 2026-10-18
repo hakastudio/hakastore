@@ -16,10 +16,10 @@ $b_desc  = get_theme_mod('hakastore_banner_desc', 'Buat akun pembeli untuk menik
           <?php echo esc_html($b_desc); ?>
         </p>
         <div class="promo-banner__actions">
-          <a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>" class="btn btn--primary btn--lg" id="promo-daftar-btn">
+          <a href="<?php echo esc_url(hakastore_get_account_url()); ?>" class="btn btn--primary btn--lg" id="promo-daftar-btn">
             <?php esc_html_e('Daftar Akun Pembeli','hakastore'); ?>
           </a>
-          <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="btn btn--ghost btn--lg" id="promo-shop-btn">
+          <a href="<?php echo esc_url(hakastore_get_shop_url()); ?>" class="btn btn--ghost btn--lg" id="promo-shop-btn">
             <?php esc_html_e('Lihat Semua Produk','hakastore'); ?>
           </a>
         </div>

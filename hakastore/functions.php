@@ -5,9 +5,44 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAKASTORE_VERSION', '1.0.1' );
+define( 'HAKASTORE_VERSION', '1.0.2' );
 define( 'HAKASTORE_DIR', get_template_directory() );
 define( 'HAKASTORE_URI', get_template_directory_uri() );
+
+// ── Safe WooCommerce Helpers (Fallback if WooCommerce is inactive) ──
+function hakastore_is_wc_active() {
+    return class_exists( 'WooCommerce' );
+}
+
+function hakastore_get_shop_url() {
+    if ( function_exists( 'wc_get_page_permalink' ) ) {
+        $url = wc_get_page_permalink( 'shop' );
+        if ( $url && ! is_wp_error( $url ) && '-1' !== $url ) {
+            return $url;
+        }
+    }
+    return home_url( '/shop' );
+}
+
+function hakastore_get_cart_url() {
+    if ( function_exists( 'wc_get_cart_url' ) ) {
+        return wc_get_cart_url();
+    }
+    return home_url( '/cart' );
+}
+
+function hakastore_get_account_url( $endpoint = '' ) {
+    if ( function_exists( 'wc_get_page_permalink' ) ) {
+        $base = wc_get_page_permalink( 'myaccount' );
+        if ( ! empty( $endpoint ) && function_exists( 'wc_get_account_endpoint_url' ) ) {
+            return wc_get_account_endpoint_url( $endpoint );
+        }
+        if ( $base && ! is_wp_error( $base ) && '-1' !== $base ) {
+            return $base;
+        }
+    }
+    return home_url( '/my-account' );
+}
 
 // ── Setup ──────────────────────────────────────────────────
 function hakastore_setup() {
@@ -52,7 +87,7 @@ function hakastore_enqueue() {
     wp_localize_script( 'hakastore-main', 'hakastoreData', [
         'ajaxUrl' => admin_url( 'admin-ajax.php' ),
         'nonce'   => wp_create_nonce( 'hakastore_nonce' ),
-        'cartUrl' => wc_get_cart_url(),
+        'cartUrl' => hakastore_get_cart_url(),
     ] );
 }
 add_action( 'wp_enqueue_scripts', 'hakastore_enqueue' );
@@ -86,15 +121,14 @@ function hakastore_widgets_init() {
 }
 add_action( 'widgets_init', 'hakastore_widgets_init' );
 
-// ── WooCommerce Helpers ────────────────────────────────────
-// Remove default WooCommerce breadcrumb on single product (we provide our own)
+// ── WooCommerce Helpers & Wrappers ─────────────────────────
 add_action( 'init', function() {
-    remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
+    if ( function_exists( 'remove_action' ) ) {
+        remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
+        remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10 );
+        remove_action( 'woocommerce_after_main_content',  'woocommerce_output_content_wrapper_end', 10 );
+    }
 } );
-
-// Remove WooCommerce default wrappers
-remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10 );
-remove_action( 'woocommerce_after_main_content',  'woocommerce_output_content_wrapper_end', 10 );
 
 add_action( 'woocommerce_before_main_content', function() {
     echo '<div class="container"><div class="woocommerce-content">';
@@ -112,7 +146,8 @@ add_action( 'wp_ajax_hakastore_cart_count', 'hakastore_cart_count' );
 add_action( 'wp_ajax_nopriv_hakastore_cart_count', 'hakastore_cart_count' );
 function hakastore_cart_count() {
     check_ajax_referer( 'hakastore_nonce', 'nonce' );
-    wp_send_json_success( [ 'count' => WC()->cart->get_cart_contents_count() ] );
+    $count = ( function_exists( 'WC' ) && WC()->cart ) ? WC()->cart->get_cart_contents_count() : 0;
+    wp_send_json_success( [ 'count' => $count ] );
 }
 
 // ── Wishlist Toggle AJAX ───────────────────────────────────
@@ -151,7 +186,7 @@ function hakastore_live_search() {
         'post_status'    => 'publish',
     ] );
     $data = array_map( function( $p ) {
-        $product = wc_get_product( $p->ID );
+        $product = function_exists( 'wc_get_product' ) ? wc_get_product( $p->ID ) : null;
         return [
             'id'    => $p->ID,
             'title' => get_the_title( $p->ID ),
@@ -170,6 +205,7 @@ add_action( 'init', function() {
 
 // ── Helper: Product type badge ─────────────────────────────
 function hakastore_product_type_badge( $product_id ) {
+    if ( ! function_exists( 'wc_get_product' ) ) return '';
     $product = wc_get_product( $product_id );
     if ( ! $product ) return '';
     $type = $product->get_type();
@@ -178,11 +214,6 @@ function hakastore_product_type_badge( $product_id ) {
     }
     return '<span class="badge badge--physical">Fisik</span>';
 }
-
-// ── Helper: Currency format IDR ────────────────────────────
-add_filter( 'woocommerce_currency_symbol', function( $currency_symbol, $currency ) {
-    return $currency_symbol;
-}, 10, 2 );
 
 // ── Query Filter: Digital vs Physical Products ─────────────
 add_action( 'woocommerce_product_query', 'hakastore_filter_product_types' );
@@ -222,18 +253,31 @@ add_filter( 'pre_option_default_role', function() {
     return 'customer';
 } );
 
-// Hide WordPress admin bar for customers
+// Hide WordPress admin bar for non-management users
 add_action( 'after_setup_theme', function() {
-    if ( ! current_user_can( 'administrator' ) && ! is_admin() ) {
+    if ( ! current_user_can( 'edit_posts' ) && ! is_admin() ) {
         show_admin_bar( false );
     }
 } );
 
 // Block customers from accessing wp-admin dashboard directly
 add_action( 'admin_init', function() {
-    if ( ! current_user_can( 'administrator' ) && ! wp_doing_ajax() ) {
-        wp_safe_redirect( wc_get_page_permalink( 'myaccount' ) );
+    // Jangan redirect jika sedang AJAX, WP Cron, atau dalam mode Customizer / Live Preview
+    if ( wp_doing_ajax() || wp_doing_cron() || is_customize_preview() ) {
+        return;
+    }
+    if ( ! current_user_can( 'edit_posts' ) ) {
+        wp_safe_redirect( hakastore_get_account_url() );
         exit;
+    }
+} );
+
+// ── Admin Notice if WooCommerce is not active ──────────────
+add_action( 'admin_notices', function() {
+    if ( ! hakastore_is_wc_active() && current_user_can( 'activate_plugins' ) ) {
+        echo '<div class="notice notice-info is-dismissible">
+            <p><strong>HakaStore Theme:</strong> Untuk mengaktifkan fitur katalog produk, keranjang belanja, dan sistem unduhan file digital otomatis, silakan pasang dan aktifkan plugin <strong>WooCommerce</strong>.</p>
+        </div>';
     }
 } );
 
@@ -256,7 +300,3 @@ if ( file_exists( HAKASTORE_DIR . '/inc/class-theme-updater.php' ) ) {
         'hakastore'
     );
 }
-
-
-
-

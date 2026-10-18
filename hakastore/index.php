@@ -29,10 +29,10 @@ $hero_btn1    = get_theme_mod('hakastore_hero_btn1_text', 'Jelajahi Produk');
           <?php echo esc_html($hero_desc); ?>
         </p>
         <div class="hero__actions">
-          <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="btn btn--primary btn--lg" id="hero-shop-btn">
+          <a href="<?php echo esc_url(hakastore_get_shop_url()); ?>" class="btn btn--primary btn--lg" id="hero-shop-btn">
             <?php echo esc_html($hero_btn1); ?>
           </a>
-          <a href="<?php echo esc_url(add_query_arg('filter_type', 'digital', wc_get_page_permalink('shop'))); ?>" class="btn btn--outline btn--lg" id="hero-digital-btn">
+          <a href="<?php echo esc_url(add_query_arg('filter_type', 'digital', hakastore_get_shop_url())); ?>" class="btn btn--outline btn--lg" id="hero-digital-btn">
             ⚡ <?php esc_html_e('Produk Digital','hakastore'); ?>
           </a>
         </div>

@@ -7,12 +7,12 @@ get_header();
 ?>
 <div class="product-single">
   <div class="container">
-    <?php while ( have_posts() ) : the_post(); global $product; $product = wc_get_product( get_the_ID() ); ?>
+    <?php while ( have_posts() ) : the_post(); global $product; $product = function_exists('wc_get_product') ? wc_get_product( get_the_ID() ) : null; ?>
 
     <nav class="product-info__breadcrumb" aria-label="<?php esc_attr_e('Breadcrumb','hakastore'); ?>">
       <a href="<?php echo esc_url(home_url('/')); ?>"><?php esc_html_e('Beranda','hakastore'); ?></a>
       <span aria-hidden="true">/</span>
-      <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>"><?php esc_html_e('Katalog Toko','hakastore'); ?></a>
+      <a href="<?php echo esc_url(hakastore_get_shop_url()); ?>"><?php esc_html_e('Katalog Toko','hakastore'); ?></a>
       <span aria-hidden="true">/</span>
       <span aria-current="page"><?php echo esc_html(get_the_title()); ?></span>
     </nav>

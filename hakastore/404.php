@@ -21,7 +21,7 @@ get_header();
       <a href="<?php echo esc_url( home_url('/') ); ?>" class="btn btn--primary btn--lg">
         <?php esc_html_e('Kembali ke Beranda', 'hakastore'); ?>
       </a>
-      <a href="<?php echo esc_url( wc_get_page_permalink('shop') ); ?>" class="btn btn--outline btn--lg">
+      <a href="<?php echo esc_url( hakastore_get_shop_url() ); ?>" class="btn btn--outline btn--lg">
         <?php esc_html_e('Jelajahi Toko', 'hakastore'); ?>
       </a>
     </div>
