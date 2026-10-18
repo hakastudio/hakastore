@@ -1,6 +1,6 @@
 # 🌟 HakaStore Official Store — WordPress WooCommerce Theme
 
-Tema WordPress e-commerce modern dengan estetika **Dark Luxury & Gold Accent** yang dirancang khusus untuk toko resmi (*single seller*) yang menjual **produk digital (instant download)** maupun **produk fisik (pengiriman kurir)** dengan sistem registrasi eksklusif untuk **pembeli (customer only)**.
+Tema WordPress e-commerce modern dengan estetika **Dark Luxury & Gold Accent** yang dirancang khusus untuk toko resmi (*single seller*) yang menjual **produk digital (instant download)** maupun **produk fisik (pengiriman kurir)** dengan sistem registrasi eksklusif untuk **pembeli (customer only)** dan **pembaruan otomatis 1-klik via GitHub**.
 
 ---
 
@@ -12,9 +12,10 @@ Tema WordPress e-commerce modern dengan estetika **Dark Luxury & Gold Accent** y
 5. [Tutorial Unggah Produk Digital (Download Otomatis 24/7)](#-tutorial-unggah-produk-digital)
 6. [Tutorial Unggah Produk Fisik (Pengiriman Kurir)](#-tutorial-unggah-produk-fisik)
 7. [Alur Pembelian & Pengiriman File](#-alur-pembelian--pengiriman-file)
-8. [Struktur Berkas Tema](#-struktur-berkas-tema)
-9. [Rekomendasi Plugin Pendukung](#-rekomendasi-plugin-pendukung)
-10. [Tanya Jawab (FAQ) & Solusi](#-tanya-jawab-faq--solusi)
+8. [Tutorial Pembaruan Otomatis (Auto-Update via GitHub)](#-tutorial-pembaruan-otomatis-auto-update-via-github)
+9. [Struktur Berkas Tema](#-struktur-berkas-tema)
+10. [Rekomendasi Plugin Pendukung](#-rekomendasi-plugin-pendukung)
+11. [Tanya Jawab (FAQ) & Solusi](#-tanya-jawab-faq--solusi)
 
 ---
 
@@ -71,7 +72,7 @@ Saat tema HakaStore diaktifkan pertama kali bersama WooCommerce, tema secara oto
 Semua teks, warna, dan kontak toko dapat diubah kapan saja melalui menu kustomisasi WordPress:
 
 1. Buka **Tampilan > Sesuaikan** (*Appearance > Customize*).
-2. Klik panel **⚡ Pengaturan HakaStore Store**.
+2. Klik panel **⚡ Pengaturan HakaTimes Store / HakaStore**.
 3. Di dalamnya tersedia opsi:
    - **🎨 Warna & Identitas Toko**:
      - *Warna Aksen Utama (Gold)*: Pilih warna emas favorit Anda dengan color picker.
@@ -175,31 +176,74 @@ File Otomatis Diterima Pembeli Lewat 3 Jalur Sekaligus:
 
 ---
 
-## 🔄 Fitur Pembaruan Otomatis (Auto-Update via GitHub)
+## 🔄 Tutorial Pembaruan Otomatis (Auto-Update via GitHub)
 
-Tema HakaStore dilengkapi dengan **mesin pembaruan otomatis bawaan** (`inc/class-theme-updater.php`) yang terhubung langsung ke repositori GitHub: [**https://github.com/hakastudio/hakastore**](https://github.com/hakastudio/hakastore).
+Tema HakaStore telah dilengkapi dengan **fitur update otomatis resmi** (`inc/class-theme-updater.php`) yang terhubung langsung ke repositori GitHub:
+👉 **[https://github.com/hakastudio/hakastore](https://github.com/hakastudio/hakastore)**
 
-### Bagaimana Cara Kerjanya?
-1. Saat Anda merilis versi baru di GitHub (misal: `v1.0.1`), WordPress akan otomatis mendeteksinya melalui API GitHub Releases.
-2. Di dashboard WordPress (**Tampilan > Tema** atau **Dasbor > Pembaruan**), akan muncul notifikasi kuning:
-   > *"Ada versi baru dari HakaStore tersedia. Periksa rincian versi 1.0.1 atau perbarui sekarang."*
-3. Anda (atau admin web) cukup mengeklik **"Perbarui Sekarang"** (*Update Now*).
-4. WordPress akan otomatis mengunduh file `hakastore.zip` terbaru dari GitHub Releases, mengekstraknya, dan memperbarui file tema tanpa menghilangkan data produk, pengaturan kustomisasi, maupun database yang sudah ada!
+### A. Alur Kerja Sistem Pembaruan Otomatis
+```
+[Anda Rilis Versi Baru di GitHub (misal: v1.0.2)]
+                      ↓
+[GitHub Actions Otomatis Merilis hakastore.zip]
+                      ↓
+[WordPress Mendeteksi Ada Versi Baru dari API GitHub]
+                      ↓
+[Muncul Notifikasi "Perbarui Sekarang" di Dashboard WP]
+                      ↓
+[Admin Klik "Perbarui Sekarang" -> Selesai dalam 5 Detik!]
+```
 
-### Cara Merilis Versi Baru Nanti:
-Setiap kali Anda selesai mengedit atau menambah fitur:
-1. Naikkan nomor versi di 2 file:
-   - `hakastore/style.css` -> ubah `Version: 1.0.1`
-   - `hakastore/functions.php` -> ubah `define( 'HAKASTORE_VERSION', '1.0.1' );`
-2. Commit dan buat Git Tag:
-   ```bash
-   git add .
-   git commit -m "feat: rilis pembaruan v1.0.1"
-   git tag -a v1.0.1 -m "Rilis HakaStore v1.0.1"
-   git push origin main --tags
+---
+
+### B. Tutorial Langkah demi Langkah untuk Melakukan Update di Masa Depan
+
+Bila suatu saat Anda ingin memperbaiki kode, menambah fitur, atau mengganti desain tema:
+
+#### Langkah 1: Ubah Nomor Versi di Berkas Tema
+Buka dan naikkan nomor versi di 2 berkas berikut:
+1. **`hakastore/style.css`**:
+   ```css
+   /* Ubah dari 1.0.1 menjadi versi baru, misal 1.0.2 */
+   Version: 1.0.2
    ```
-3. GitHub Actions akan otomatis mengompilasi dan mengunggah `hakastore.zip` ke GitHub Releases.
-4. WordPress Anda langsung mendeteksi update tersebut!
+2. **`hakastore/functions.php`**:
+   ```php
+   // Ubah dari 1.0.1 menjadi versi baru
+   define( 'HAKASTORE_VERSION', '1.0.2' );
+   ```
+
+#### Langkah 2: Commit dan Buat Tag Rilis di Terminal
+Jalankan perintah berikut di folder proyek Anda:
+```bash
+# 1. Tambahkan semua perubahan file
+git add .
+
+# 2. Buat commit pesan perbaikan
+git commit -m "feat: rilis pembaruan tema v1.0.2"
+
+# 3. Buat Git Tag rilis baru (sesuai nomor versi)
+git tag -a v1.0.2 -m "Rilis HakaStore v1.0.2"
+
+# 4. Push kode dan tag baru ke GitHub
+git push origin main --tags
+```
+
+#### Langkah 3: GitHub Actions Bekerja Otomatis
+Setelah perintah `git push` selesai:
+- GitHub Actions akan otomatis mengompres folder `hakastore/` menjadi paket **`hakastore.zip`**.
+- Paket zip tersebut otomatis diunggah ke halaman [GitHub Releases](https://github.com/hakastudio/hakastore/releases) dengan tag `v1.0.2`.
+
+#### Langkah 4: Cara Memperbarui dari Dashboard WordPress
+1. Buka dashboard WordPress Anda.
+2. Masuk ke menu **Dasbor > Pembaruan** (*Dashboard > Updates*) atau **Tampilan > Tema** (*Appearance > Themes*).
+3. Anda akan melihat notifikasi pembaruan tema HakaStore:
+   > *"Ada versi baru dari HakaStore tersedia. **Perbarui sekarang**."*
+4. Klik tombol **"Perbarui sekarang"** (*Update now*).
+5. WordPress akan otomatis mengunduh berkas `hakastore.zip` terbaru dari GitHub dan memperbarui tema Anda dalam beberapa detik!
+
+> 💡 **Tips Memaksa Pengecekan Update Instan**:
+> WordPress menyimpan cache pemeriksaan update selama beberapa jam. Jika Anda baru saja merilis tag di GitHub dan ingin melihat notifikasinya detik itu juga, cukup buka **Dasbor > Pembaruan** lalu klik tombol **"Periksa Lagi"** (*Check Again*).
 
 ---
 
@@ -219,6 +263,7 @@ hakastore/
 ├── search.php                     # Halaman hasil pencarian produk
 ├── 404.php                        # Halaman error 404 berdesain senada
 ├── inc/
+│   ├── class-theme-updater.php    # Mesin pembaruan otomatis via GitHub Releases
 │   ├── customizer.php             # Panel pengaturan Tampilan > Sesuaikan
 │   └── demo-data.php              # Generator contoh produk otomatis
 ├── woocommerce/
@@ -254,6 +299,9 @@ Untuk memaksimalkan toko online HakaStore Anda:
 ---
 
 ## ❓ Tanya Jawab (FAQ) & Solusi
+
+#### Q: Apakah update otomatis akan menghapus produk atau pengaturan toko saya?
+> **A:** **Sama sekali tidak.** Semua data produk, pesanan, akun pelanggan, dan pengaturan Customizer tersimpan aman di database MySQL WordPress Anda, bukan di dalam berkas tema. Proses update hanya mengganti berkas template tema saja.
 
 #### Q: Apakah pembeli wajib mendaftar akun untuk mengunduh produk digital?
 > **A:** Disarankan ya, agar file yang mereka beli tersimpan selamanya di menu **Akun Saya > Unduhan**. Anda dapat mengaktifkannya di menu **WooCommerce > Pengaturan > Akun & Privasi** > centang *"Izinkan pelanggan membuat akun selama pembayaran"*.
