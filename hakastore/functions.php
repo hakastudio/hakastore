@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAKASTORE_VERSION', '1.0.0' );
+define( 'HAKASTORE_VERSION', '1.0.1' );
 define( 'HAKASTORE_DIR', get_template_directory() );
 define( 'HAKASTORE_URI', get_template_directory_uri() );
 
