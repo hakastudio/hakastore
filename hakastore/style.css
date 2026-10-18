@@ -1,0 +1,16 @@
+/*
+Theme Name: HakaStore
+Theme URI: https://hakastore.com
+Author: HakaStore Team
+Author URI: https://hakastore.com
+Description: Premium marketplace theme for digital and physical products. WooCommerce compatible, dark luxury with gold accent.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: hakastore
+Tags: woocommerce, marketplace, e-commerce, dark, gold, premium, digital-products, responsive
+*/
+/* Main styles are in assets/css/main.css, enqueued via functions.php */

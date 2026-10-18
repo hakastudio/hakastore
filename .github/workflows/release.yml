@@ -1,0 +1,59 @@
+name: Build & Release HakaStore Theme
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Package Theme & Create GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Theme ZIP Archive
+        run: |
+          mkdir -p dist
+          # Archive hakastore folder into hakastore.zip
+          zip -r dist/hakastore.zip hakastore/ -x "*/.*"
+
+      - name: Generate Release Tag for Main Push
+        id: vars
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+            echo "is_prerelease=false" >> $GITHUB_OUTPUT
+          else
+            echo "tag_name=latest" >> $GITHUB_OUTPUT
+            echo "is_prerelease=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create or Update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.vars.outputs.tag_name }}
+          name: "HakaStore Release ${{ steps.vars.outputs.tag_name }}"
+          body: |
+            ### 🌟 HakaStore WordPress Theme Release
+            
+            Tema WordPress toko online resmi (*single seller*) dengan desain **Dark Luxury & Gold Accent** untuk produk digital & fisik.
+            
+            #### 📦 Cara Memasang:
+            1. Unduh berkas **`hakastore.zip`** di bawah ini.
+            2. Buka dashboard WordPress admin -> **Tampilan > Tema > Tambah Baru > Unggah Tema**.
+            3. Pilih file `hakastore.zip` lalu klik **Pasang Sekarang** dan **Aktifkan**.
+            
+            #### 🔄 Pembaruan:
+            - Otomatis di-package dan dirilis via GitHub Actions setiap ada pembaruan kode.
+          files: dist/hakastore.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
